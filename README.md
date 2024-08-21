@@ -1,2 +1,2 @@
 # google-maps-clone-with-typescript
-using Typescript for creating Google Maps clone
+using typescript for creating Google Maps clone with openstreetmap
