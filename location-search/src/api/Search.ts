@@ -1,7 +1,6 @@
 import type { Place } from "./Place";
 
 interface SearchResponse {
-  type: string;
   features: {
     geometry: {
       coordinates: number[];
@@ -13,18 +12,20 @@ interface SearchResponse {
   }[];
 }
 
-export const Search = async (term: string) => {
-  const response = await fetch(
+export const search = async (term: string) => {
+  const res = await fetch(
     `https://nominatim.openstreetmap.org/search?q=${term}&format=geojson&addressdetails=1&layer=address&limit=5`
   );
-  const data: SearchResponse = await response.json();
+  const data: SearchResponse = await res.json();
 
-  const places: Place[] = data.features.map(feature => ({
-    id: feature.properties.place_id,
-    name: feature.properties.display_name,
-    lat: feature.geometry.coordinates[1],
-    lon: feature.geometry.coordinates[0],
-  }));
+  const places: Place[] = data.features.map((feature) => {
+    return {
+      id: feature.properties.place_id,
+      name: feature.properties.display_name,
+      longitude: feature.geometry.coordinates[0],
+      latitude: feature.geometry.coordinates[1],
+    };
+  });
 
   return places;
 };
